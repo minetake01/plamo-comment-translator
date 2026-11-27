@@ -1,0 +1,40 @@
+{
+  "scopeName": "source.test",
+  "patterns": [
+    {
+      "match": "//.*$",
+      "name": "comment.line.double-slash.test"
+    },
+    {
+      "begin": "/\\*",
+      "end": "\\*/",
+      "name": "comment.block.test"
+    },
+    {
+      "begin": "\"",
+      "end": "\"",
+      "name": "string.quoted.double.test",
+      "patterns": [
+        {
+          "match": "\\\\.",
+          "name": "constant.character.escape.test"
+        },
+        {
+          "match": "[^\"\\\\]+",
+          "name": "string.quoted.double.test"
+        }
+      ]
+    },
+    {
+      "begin": "`",
+      "end": "`",
+      "name": "string.template.test",
+      "patterns": [
+        {
+          "match": "[^`]+",
+          "name": "string.template.test"
+        }
+      ]
+    }
+  ]
+}

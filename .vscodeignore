@@ -1,0 +1,15 @@
+.vscode/
+.vscode-test/
+.github/
+.gitignore
+.gitattributes
+src/
+test/
+scripts/
+test-build/
+node_modules/
+tsconfig.json
+package-lock.json
+pnpm-lock.yaml
+*.log
+*.vsix

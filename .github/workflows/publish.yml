@@ -1,0 +1,73 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag of the release to publish (e.g. v0.2.0)'
+        required: true
+        type: string
+      target:
+        description: 'Registry to publish to'
+        required: true
+        type: choice
+        default: marketplace
+        options: [marketplace, openvsx, both]
+
+permissions:
+  contents: read
+
+jobs:
+  marketplace:
+    if: inputs.target == 'marketplace' || inputs.target == 'both'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.tag }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node scripts/verify-tag.mjs "${{ inputs.tag }}"
+      - name: Download the release VSIX
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p dist
+          gh release download "${{ inputs.tag }}" --pattern '*.vsix' --dir dist
+      - name: Publish to Visual Studio Marketplace
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          if [ -z "$VSCE_PAT" ]; then
+            echo "::error::repository secret VSCE_PAT is not set"
+            exit 1
+          fi
+          node node_modules/@vscode/vsce/vsce publish --packagePath dist/*.vsix
+
+  openvsx:
+    if: inputs.target == 'openvsx' || inputs.target == 'both'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.tag }}
+      - name: Download the release VSIX
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p dist
+          gh release download "${{ inputs.tag }}" --pattern '*.vsix' --dir dist
+      - name: Publish to Open VSX
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: |
+          if [ -z "$OVSX_PAT" ]; then
+            echo "::error::repository secret OVSX_PAT is not set"
+            exit 1
+          fi
+          npx --yes ovsx publish dist/*.vsix --pat "$OVSX_PAT"

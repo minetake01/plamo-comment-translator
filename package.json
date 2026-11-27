@@ -1,0 +1,247 @@
+{
+  "name": "plamo-comment-translator",
+  "displayName": "PLaMo Comment Translator",
+  "description": "ローカルの PLaMo 3 Translate でコメント・文字列・Markdown・選択範囲をホバー翻訳します。",
+  "version": "0.2.0",
+  "publisher": "minetake01",
+  "author": "minetake01",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minetake01/plamo-comment-translator.git"
+  },
+  "homepage": "https://github.com/minetake01/plamo-comment-translator#readme",
+  "bugs": {
+    "url": "https://github.com/minetake01/plamo-comment-translator/issues"
+  },
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "comment",
+    "translate",
+    "hover",
+    "markdown",
+    "selection",
+    "plamo",
+    "local"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "icon": "icon.png",
+  "main": "./dist/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "configuration": {
+      "title": "PLaMo Comment Translator",
+      "properties": {
+        "plamoCommentTranslator.endpoint": {
+          "type": "string",
+          "default": "http://127.0.0.1:45871/v1",
+          "order": 1,
+          "description": "PLaMo 3 Translate の OpenAI 互換ベース URL。末尾に /v1 を含めます。"
+        },
+        "plamoCommentTranslator.model": {
+          "type": "string",
+          "default": "plamo-3-translate",
+          "order": 2,
+          "description": "サーバーの --served-model-name と一致するモデル名。"
+        },
+        "plamoCommentTranslator.targetLanguage": {
+          "type": "string",
+          "default": "auto",
+          "order": 3,
+          "enum": [
+            "auto",
+            "ja",
+            "en",
+            "ko",
+            "ar",
+            "az",
+            "be",
+            "bg",
+            "bn",
+            "ca",
+            "ceb",
+            "de",
+            "es",
+            "et",
+            "eu",
+            "fa",
+            "fr",
+            "gu",
+            "he",
+            "hi",
+            "hr",
+            "hu",
+            "hy",
+            "id",
+            "it",
+            "jv",
+            "ka",
+            "kk",
+            "km",
+            "lt",
+            "lv",
+            "ml",
+            "mr",
+            "ms",
+            "my",
+            "ne",
+            "nl",
+            "pa",
+            "pl",
+            "ru",
+            "si",
+            "sk",
+            "sl",
+            "sr",
+            "sw",
+            "ta",
+            "te",
+            "th",
+            "tl",
+            "ur",
+            "uz",
+            "vi",
+            "zh-hans",
+            "zh-hant"
+          ],
+          "enumDescriptions": [
+            "VSCode の表示言語",
+            "日本語",
+            "英語",
+            "韓国語",
+            "アラビア語",
+            "アゼルバイジャン語",
+            "ベラルーシ語",
+            "ブルガリア語",
+            "ベンガル語",
+            "カタルーニャ語",
+            "セブアノ語",
+            "ドイツ語",
+            "スペイン語",
+            "エストニア語",
+            "バスク語",
+            "ペルシア語",
+            "フランス語",
+            "グジャラート語",
+            "ヘブライ語",
+            "ヒンディー語",
+            "クロアチア語",
+            "ハンガリー語",
+            "アルメニア語",
+            "インドネシア語",
+            "イタリア語",
+            "ジャワ語",
+            "ジョージア語",
+            "カザフ語",
+            "クメール語",
+            "リトアニア語",
+            "ラトビア語",
+            "マラヤーラム語",
+            "マラーティー語",
+            "マレー語",
+            "ミャンマー語",
+            "ネパール語",
+            "オランダ語",
+            "パンジャブ語",
+            "ポーランド語",
+            "ロシア語",
+            "シンハラ語",
+            "スロバキア語",
+            "スロベニア語",
+            "セルビア語",
+            "スワヒリ語",
+            "タミル語",
+            "テルグ語",
+            "タイ語",
+            "タガログ語",
+            "ウルドゥー語",
+            "ウズベク語",
+            "ベトナム語",
+            "中国語（簡体字）",
+            "中国語（繁体字）"
+          ],
+          "description": "翻訳先の言語。auto は VSCode の表示言語です。"
+        },
+        "plamoCommentTranslator.hoverEnabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 10,
+          "description": "コメント・文字列・Markdown のホバー翻訳を有効にします。"
+        },
+        "plamoCommentTranslator.hoverComments": {
+          "type": "boolean",
+          "default": true,
+          "order": 11,
+          "description": "コメントのホバー翻訳を有効にします。"
+        },
+        "plamoCommentTranslator.hoverStrings": {
+          "type": "boolean",
+          "default": true,
+          "order": 12,
+          "description": "文字列リテラルのホバー翻訳を有効にします。"
+        },
+        "plamoCommentTranslator.hoverMarkdown": {
+          "type": "boolean",
+          "default": true,
+          "order": 13,
+          "description": "Markdown の見出し・段落・リスト・引用・表のセルのホバー翻訳を有効にします。"
+        },
+        "plamoCommentTranslator.timeoutMs": {
+          "type": "number",
+          "default": 15000,
+          "minimum": 1000,
+          "maximum": 120000,
+          "order": 20,
+          "description": "1 チャンクあたりの翻訳タイムアウト（ミリ秒）。"
+        },
+        "plamoCommentTranslator.maxOutputTokens": {
+          "type": "number",
+          "default": 2048,
+          "minimum": 128,
+          "maximum": 8192,
+          "order": 21,
+          "description": "1 リクエストの max_tokens 上限。"
+        },
+        "plamoCommentTranslator.addSpecialTokens": {
+          "type": "boolean",
+          "default": true,
+          "order": 22,
+          "description": "リクエストに add_special_tokens を付与します。vLLM は true、BOS を自動付与する llama.cpp などは false。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "build:test": "node scripts/build-test.mjs",
+    "test": "npm run build:test && node --test test/*.test.mjs",
+    "test:integration": "node test/integration/run.mjs",
+    "live-check": "npm run build:test && node scripts/live-check.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "dependencies": {
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.92.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3"
+  }
+}

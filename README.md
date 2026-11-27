@@ -24,11 +24,13 @@
 
 ## インストール
 
-[Releases](https://github.com/minetake01/plamo-comment-translator/releases) の `.vsix` を取得して入れます。
+[Releases](https://github.com/minetake01/plamo-comment-translator/releases) から `plamo-comment-translator-0.2.0.vsix` をダウンロードして入れます。
 
 ```powershell
-code --install-extension dist/plamo-comment-translator-0.2.0.vsix
+code --install-extension plamo-comment-translator-0.2.0.vsix
 ```
+
+リポジトリでビルドした場合は `dist/plamo-comment-translator-0.2.0.vsix` を同じ手順で入れられます。
 
 元の `intellsmi.comment-translate` が有効なままだと、同じ場所に 2 つのホバーが出ます。この拡張だけを使う場合は無効化してください。
 

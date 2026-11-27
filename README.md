@@ -208,6 +208,6 @@ src/
 ## ライセンス
 
 - このリポジトリのコード: MIT（[LICENSE](LICENSE)）
-- TextMate のトークン化とコメントブロック検出の考え方は [intellism/vscode-comment-translate](https://github.com/intellism/vscode-comment-translate)（MIT）を参考にしています。
+- TextMate のトークン化とコメントブロック検出の考え方は [intellism/vscode-comment-translate](https://github.com/intellism/vscode-comment-translate)（MIT）を参考にしています（[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)）。
 - PFML3 プロンプトは [plamo-page-translator](https://github.com/minetake01/plamo-page-translator) と `plamo-cot-translation` の実装に合わせています。
 - PLaMo 3 Translate のモデル重みは含みません。PLaMo Community License に従って別途取得してください。
